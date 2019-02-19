@@ -1,0 +1,15 @@
+[package]
+name = "tiny-hderive"
+version = "0.1.0"
+authors = ["Maciej Hirsz <maciej.hirsz@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+libsecp256k1 = "0.2"
+base58 = "0.1.0"
+sha2 = "0.8.0"
+hmac = "0.7.0"
+
+[dev-dependencies]
+ethsign = { version = "0.3", default-features = false, features = ["secp256k1-rs"] }
+bip39 = { git = "https://github.com/maciejhirsz/bip39-rs", default-features = false } # This will land in offical 0.6, sometime...
