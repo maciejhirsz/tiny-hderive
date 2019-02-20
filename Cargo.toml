@@ -17,4 +17,4 @@ hmac = "0.7.0"
 
 [dev-dependencies]
 ethsign = { version = "0.3", default-features = false, features = ["secp256k1-rs"] }
-bip39 = { git = "https://github.com/maciejhirsz/bip39-rs", default-features = false } # This will land in offical 0.6, sometime...
+tiny-bip39 = "0.6"
