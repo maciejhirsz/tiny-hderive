@@ -7,7 +7,7 @@ license = "GPL-3.0"
 documentation = "https://docs.rs/tiny-hderive"
 homepage = "https://github.com/maciejhirsz/tiny-hderive"
 repository = "https://github.com/maciejhirsz/tiny-hderive"
-keywords = ["bitcoin", "eth", "ethereum", "bip32", "bip39", "bip44"]
+keywords = ["bitcoin", "ethereum", "bip32", "bip39", "bip44"]
 
 [dependencies]
 libsecp256k1 = "0.2"
