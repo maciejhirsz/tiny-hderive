@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
 license = "GPL-3.0"
+description = "Tiny BIP44/BIP32 derivation for BIP39 seeds"
 documentation = "https://docs.rs/tiny-hderive"
 homepage = "https://github.com/maciejhirsz/tiny-hderive"
 repository = "https://github.com/maciejhirsz/tiny-hderive"
