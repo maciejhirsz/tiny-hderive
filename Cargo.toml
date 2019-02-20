@@ -1,8 +1,13 @@
 [package]
 name = "tiny-hderive"
 version = "0.1.0"
-authors = ["Maciej Hirsz <maciej.hirsz@gmail.com>"]
+authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
+license = "GPL-3.0"
+documentation = "https://docs.rs/tiny-hderive"
+homepage = "https://github.com/maciejhirsz/tiny-hderive"
+repository = "https://github.com/maciejhirsz/tiny-hderive"
+keywords = ["bitcoin", "eth", "ethereum", "bip32", "bip39", "bip44"]
 
 [dependencies]
 libsecp256k1 = "0.2"
