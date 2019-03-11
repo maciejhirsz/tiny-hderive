@@ -2,24 +2,24 @@ use secp256k1::{SecretKey, PublicKey};
 use base58::FromBase58;
 use sha2::Sha512;
 use hmac::{Hmac, Mac};
+use memzero::Memzero;
 use std::ops::Deref;
 use std::str::FromStr;
+use std::fmt;
 
 use crate::bip44::{ChildNumber, IntoDerivationPath};
 use crate::Error;
 
-// TODO: Add Memzero
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub struct Protected([u8; 32]);
+#[derive(Clone, PartialEq, Eq)]
+pub struct Protected(Memzero<[u8; 32]>);
 
 impl<Data: AsRef<[u8]>> From<Data> for Protected {
-    // TODO: zero the data that is being read!
     fn from(data: Data) -> Protected {
         let mut buf = [0u8; 32];
 
         buf.copy_from_slice(data.as_ref());
 
-        Protected(buf)
+        Protected(Memzero::from(buf))
     }
 }
 
@@ -27,7 +27,13 @@ impl Deref for Protected {
     type Target = [u8];
 
     fn deref(&self) -> &[u8] {
-        &self.0
+        self.0.as_ref()
+    }
+}
+
+impl fmt::Debug for Protected {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Protected")
     }
 }
 
