@@ -15,6 +15,7 @@ libsecp256k1 = "0.2"
 base58 = "0.1.0"
 sha2 = "0.8.0"
 hmac = "0.7.0"
+memzero = "0.1.0"
 
 [dev-dependencies]
 ethsign = { version = "0.3", default-features = false, features = ["secp256k1-rs"] }

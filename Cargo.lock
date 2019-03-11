@@ -748,6 +748,7 @@ dependencies = [
  "ethsign 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "hmac 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "libsecp256k1 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "memzero 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sha2 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "tiny-bip39 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
