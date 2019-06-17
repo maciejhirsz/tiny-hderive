@@ -71,7 +71,7 @@ impl ExtendedPrivKey {
         self.secret_key.serialize()
     }
 
-    fn child(&self, child: ChildNumber) -> Result<ExtendedPrivKey, Error> {
+    pub fn child(&self, child: ChildNumber) -> Result<ExtendedPrivKey, Error> {
         let mut hmac: Hmac<Sha512> = Hmac::new_varkey(&self.chain_code)
             .map_err(|_| Error::InvalidChildNumber)?;
 
