@@ -71,7 +71,7 @@ impl ExtendedPrivKey {
         self.secret_key.serialize()
     }
 
-    fn child(&self, child: ChildNumber) -> Result<ExtendedPrivKey, Error> {
+    pub fn child(&self, child: ChildNumber) -> Result<ExtendedPrivKey, Error> {
         let mut hmac: Hmac<Sha512> = Hmac::new_varkey(&self.chain_code)
             .map_err(|_| Error::InvalidChildNumber)?;
 
@@ -131,6 +131,16 @@ mod tests {
         let seed = Seed::new(&mnemonic, "");
 
         let account = ExtendedPrivKey::derive(seed.as_bytes(), "m/44'/60'/0'/0/0").unwrap();
+
+        assert_eq!(expected_secret_key, &account.secret(), "Secret key is invalid");
+
+        let secret_key = SecretKey::from_raw(&account.secret()).unwrap();
+        let public_key = secret_key.public();
+
+        assert_eq!(expected_address, public_key.address(), "Address is invalid");
+
+        // Test child method
+        let account = ExtendedPrivKey::derive(seed.as_bytes(), "m/44'/60'/0'/0").unwrap().child(ChildNumber::from_str("0").unwrap()).unwrap();
 
         assert_eq!(expected_secret_key, &account.secret(), "Secret key is invalid");
 
