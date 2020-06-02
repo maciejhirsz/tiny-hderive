@@ -20,6 +20,14 @@ impl ChildNumber {
 	pub fn to_bytes(&self) -> [u8; 4] {
 		self.0.to_be_bytes()
 	}
+
+	pub fn hardened_from_u32(index: u32) -> Self {
+		ChildNumber(index | HARDENED_BIT)
+	}
+
+	pub fn non_hardened_from_u32(index: u32) -> Self {
+		ChildNumber(index)
+	}
 }
 
 impl FromStr for ChildNumber {
