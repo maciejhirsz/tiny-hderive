@@ -1,6 +1,6 @@
 [package]
 name = "tiny-hderive"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
 license = "GPL-3.0"
@@ -11,7 +11,7 @@ repository = "https://github.com/maciejhirsz/tiny-hderive"
 keywords = ["bitcoin", "ethereum", "bip32", "bip39", "bip44"]
 
 [dependencies]
-libsecp256k1 = "0.2"
+libsecp256k1 = "0.3.5"
 base58 = "0.1.0"
 sha2 = "0.8.0"
 hmac = "0.7.0"
