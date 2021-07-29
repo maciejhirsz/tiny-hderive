@@ -1,7 +1,7 @@
-use secp256k1::{SecretKey, PublicKey};
+use libsecp256k1::{SecretKey, PublicKey};
 use base58::FromBase58;
 use sha2::Sha512;
-use hmac::{Hmac, Mac};
+use hmac::{Hmac, Mac, NewMac};
 use memzero::Memzero;
 use std::ops::Deref;
 use std::str::FromStr;
@@ -49,10 +49,11 @@ impl ExtendedPrivKey {
     where
         Path: IntoDerivationPath,
     {
-        let mut hmac: Hmac<Sha512> = Hmac::new_varkey(b"Bitcoin seed").expect("seed is always correct; qed");
-        hmac.input(seed);
+        let mut hmac: Hmac<Sha512> =
+            Hmac::new_from_slice(b"Bitcoin seed").expect("seed is always correct; qed");
+        hmac.update(seed);
 
-        let result = hmac.result().code();
+        let result = hmac.finalize().into_bytes();
         let (secret_key, chain_code) = result.split_at(32);
 
         let mut sk = ExtendedPrivKey {
@@ -72,19 +73,19 @@ impl ExtendedPrivKey {
     }
 
     pub fn child(&self, child: ChildNumber) -> Result<ExtendedPrivKey, Error> {
-        let mut hmac: Hmac<Sha512> = Hmac::new_varkey(&self.chain_code)
-            .map_err(|_| Error::InvalidChildNumber)?;
+        let mut hmac: Hmac<Sha512> =
+            Hmac::new_from_slice(&self.chain_code).map_err(|_| Error::InvalidChildNumber)?;
 
         if child.is_normal() {
-            hmac.input(&PublicKey::from_secret_key(&self.secret_key).serialize_compressed()[..]);
+            hmac.update(&PublicKey::from_secret_key(&self.secret_key).serialize_compressed()[..]);
         } else {
-            hmac.input(&[0]);
-            hmac.input(&self.secret_key.serialize()[..]);
+            hmac.update(&[0]);
+            hmac.update(&self.secret_key.serialize()[..]);
         }
 
-        hmac.input(&child.to_bytes());
+        hmac.update(&child.to_bytes());
 
-        let result = hmac.result().code();
+        let result = hmac.finalize().into_bytes();
         let (secret_key, chain_code) = result.split_at(32);
 
         let mut secret_key = SecretKey::parse_slice(&secret_key).map_err(Error::Secp256k1)?;
