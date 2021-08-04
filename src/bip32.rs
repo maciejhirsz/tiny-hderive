@@ -1,11 +1,11 @@
-use libsecp256k1::{SecretKey, PublicKey};
 use base58::FromBase58;
-use sha2::Sha512;
 use hmac::{Hmac, Mac, NewMac};
+use libsecp256k1::{PublicKey, SecretKey};
 use memzero::Memzero;
+use no_std_compat::fmt;
 use no_std_compat::ops::Deref;
 use no_std_compat::str::FromStr;
-use no_std_compat::fmt;
+use sha2::Sha512;
 
 use crate::bip44::{ChildNumber, IntoDerivationPath};
 use crate::Error;
@@ -51,7 +51,8 @@ impl ExtendedPrivKey {
     where
         Path: IntoDerivationPath,
     {
-        let mut hmac: Hmac<Sha512> = HmacSha512::new_from_slice(b"Bitcoin seed").expect("seed is always correct; qed");
+        let mut hmac: Hmac<Sha512> =
+            HmacSha512::new_from_slice(b"Bitcoin seed").expect("seed is always correct; qed");
         hmac.update(seed);
 
         let result = hmac.finalize().into_bytes();
@@ -74,8 +75,8 @@ impl ExtendedPrivKey {
     }
 
     pub fn child(&self, child: ChildNumber) -> Result<ExtendedPrivKey, Error> {
-        let mut hmac: Hmac<Sha512> = HmacSha512::new_from_slice(&self.chain_code)
-            .map_err(|_| Error::InvalidChildNumber)?;
+        let mut hmac: Hmac<Sha512> =
+            HmacSha512::new_from_slice(&self.chain_code).map_err(|_| Error::InvalidChildNumber)?;
 
         if child.is_normal() {
             hmac.update(&PublicKey::from_secret_key(&self.secret_key).serialize_compressed()[..]);
@@ -90,11 +91,13 @@ impl ExtendedPrivKey {
         let (secret_key, chain_code) = result.split_at(32);
 
         let mut secret_key = SecretKey::parse_slice(&secret_key).map_err(Error::Secp256k1)?;
-        secret_key.tweak_add_assign(&self.secret_key).map_err(Error::Secp256k1)?;
+        secret_key
+            .tweak_add_assign(&self.secret_key)
+            .map_err(Error::Secp256k1)?;
 
         Ok(ExtendedPrivKey {
             secret_key,
-            chain_code: Protected::from(&chain_code)
+            chain_code: Protected::from(&chain_code),
         })
     }
 }
@@ -103,7 +106,9 @@ impl FromStr for ExtendedPrivKey {
     type Err = Error;
 
     fn from_str(xprv: &str) -> Result<ExtendedPrivKey, Error> {
-        let data = xprv.from_base58().map_err(|_| Error::InvalidExtendedPrivKey)?;
+        let data = xprv
+            .from_base58()
+            .map_err(|_| Error::InvalidExtendedPrivKey)?;
 
         if data.len() != 82 {
             return Err(Error::InvalidExtendedPrivKey);
@@ -111,7 +116,7 @@ impl FromStr for ExtendedPrivKey {
 
         Ok(ExtendedPrivKey {
             chain_code: Protected::from(&data[13..45]),
-            secret_key: SecretKey::parse_slice(&data[46..78]).map_err(|e| Error::Secp256k1(e))?
+            secret_key: SecretKey::parse_slice(&data[46..78]).map_err(|e| Error::Secp256k1(e))?,
         })
     }
 }
