@@ -1,5 +1,7 @@
 # tiny-hderive
 
+This is a Manta fork of tiny-hderive (https://github.com/maciejhirsz/tiny-hderive). 
+
 A library for deriving secp256k1 secret keys from [**BIP39**](https://crates.io/crates/bip39) seeds, using **BIP32** crypto and **BIP44** path formats.
 
 ```rust
