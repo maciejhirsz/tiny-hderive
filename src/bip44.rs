@@ -1,6 +1,7 @@
 use super::Error;
 
-use std::str::FromStr;
+use no_std_compat::str::FromStr;
+use ark_std::vec::Vec;
 
 const HARDENED_BIT: u32 = 1 << 31;
 

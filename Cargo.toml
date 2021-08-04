@@ -1,13 +1,11 @@
 [package]
 name = "tiny-hderive"
 version = "0.3.0"
-authors = ["Parity Technologies <admin@parity.io>"]
+authors = ["Manta Network <contact@manta.network>"]
 edition = "2018"
 license = "GPL-3.0"
 description = "Tiny BIP44/BIP32 derivation for BIP39 seeds"
-documentation = "https://docs.rs/tiny-hderive"
-homepage = "https://github.com/maciejhirsz/tiny-hderive"
-repository = "https://github.com/maciejhirsz/tiny-hderive"
+repository = "https://github.com/manta-network/tiny-hderive"
 keywords = ["bitcoin", "ethereum", "bip32", "bip39", "bip44"]
 
 [dependencies]
@@ -16,6 +14,12 @@ base58 = "0.1.0"
 sha2 = "0.9.5"
 hmac = "0.11.0"
 memzero = "0.1.0"
+no-std-compat = "0.4.1"
+ark-std = { version = "0.2.0", default-features = false }
 
 [dev-dependencies]
 tiny-bip39 = "0.8.0"
+
+[features]
+default = []
+std = []

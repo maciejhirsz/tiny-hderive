@@ -3,9 +3,9 @@ use base58::FromBase58;
 use sha2::Sha512;
 use hmac::{Hmac, Mac, NewMac};
 use memzero::Memzero;
-use std::ops::Deref;
-use std::str::FromStr;
-use std::fmt;
+use no_std_compat::ops::Deref;
+use no_std_compat::str::FromStr;
+use no_std_compat::fmt;
 
 use crate::bip44::{ChildNumber, IntoDerivationPath};
 use crate::Error;
