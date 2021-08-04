@@ -15,9 +15,11 @@
 
 #![cfg_attr(not(test), no_std)]
 
-pub mod bip44;
 pub mod bip32;
+pub mod bip44;
 
+#[cfg(test)]
+mod test;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Error {

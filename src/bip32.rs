@@ -115,29 +115,3 @@ impl FromStr for ExtendedPrivKey {
         })
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use bip39::{Mnemonic, Language, Seed};
-
-    #[test]
-    fn bip39_to_address() {
-        let phrase = "panda eyebrow bullet gorilla call smoke muffin taste mesh discover soft ostrich alcohol speed nation flash devote level hobby quick inner drive ghost inside";
-
-        let expected_secret_key = b"\xff\x1e\x68\xeb\x7b\xf2\xf4\x86\x51\xc4\x7e\xf0\x17\x7e\xb8\x15\x85\x73\x22\x25\x7c\x58\x94\xbb\x4c\xfd\x11\x76\xc9\x98\x93\x14";
-
-        let mnemonic = Mnemonic::from_phrase(phrase, Language::English).unwrap();
-        let seed = Seed::new(&mnemonic, "");
-
-        let account = ExtendedPrivKey::derive(seed.as_bytes(), "m/44'/60'/0'/0/0").unwrap();
-
-        assert_eq!(expected_secret_key, &account.secret(), "Secret key is invalid");
-
-        // // Test child method
-        let account = ExtendedPrivKey::derive(seed.as_bytes(), "m/44'/60'/0'/0").unwrap().child(ChildNumber::from_str("0").unwrap()).unwrap();
-
-        assert_eq!(expected_secret_key, &account.secret(), "Secret key is invalid");
-
-    }
-}
